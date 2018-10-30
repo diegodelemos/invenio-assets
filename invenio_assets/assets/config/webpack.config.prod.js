@@ -241,6 +241,16 @@ module.exports = {
   module: {
     strictExportPresence: true,
     rules: [
+      {
+        test: require.resolve('jquery'),
+        use: [{
+            loader: 'expose-loader',
+            options: 'jQuery'
+        },{
+            loader: 'expose-loader',
+            options: '$'
+        }]
+      },
       // Disable require.ensure as it's not a standard language feature.
       { parser: { requireEnsure: false } },
 
@@ -419,6 +429,12 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.ProvidePlugin({
+        jQuery: 'jquery/src/jquery',
+        $: 'jquery/src/jquery',
+        jquery: 'jquery/src/jquery',
+        'window.jQuery': 'jquery/src/jquery'
+    }),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
@@ -464,6 +480,7 @@ module.exports = {
     // having to parse `index.html`.
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
+      stripSrc: true,
       publicPath: config.build.assetsURL,
     }),
     // Moment.js is an extremely popular library that bundles large locale files
