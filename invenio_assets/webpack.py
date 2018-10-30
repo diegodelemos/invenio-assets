@@ -16,6 +16,6 @@ from pywebpack import bundles_from_entry_point
 project = WebpackBundleProject(
     __name__,
     project_folder='assets',
-    config_path='build/config.json',
+    config_path='config/config.json',
     bundles=bundles_from_entry_point('invenio_assets.webpack'),
 )
