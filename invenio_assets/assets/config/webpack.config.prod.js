@@ -107,10 +107,12 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the app code.
-  context: config.build.context,
+  context: paths.appPath,
   entry: {...config.entry, appIndexJs: paths.appIndexJs},
   output: {
     // The build folder.
+    // We add exactly the absolute path provided by Flask to the
+    // /static/dist folder.
     path: config.build.assetsPath,
     // Generated JS file names (with nested folders).
     // There will be one main bundle, and one file per asynchronous chunk.
@@ -118,7 +120,7 @@ module.exports = {
     filename: 'static/js/[name].[chunkhash:8].js',
     chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
     // We inferred the "public path" (such as / or /my-project) from homepage.
-    publicPath: config.build.assetsURL,
+    publicPath: publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
       path
@@ -462,7 +464,7 @@ module.exports = {
     // having to parse `index.html`.
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
-      publicPath: publicPath,
+      publicPath: config.build.assetsURL,
     }),
     // Moment.js is an extremely popular library that bundles large locale files
     // by default due to how Webpack interprets its code. This is a practical

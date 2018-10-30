@@ -12,7 +12,7 @@ const resolveApp = relativePath => path.resolve(instancePath, relativePath);
 
 // Fix this correctly either through env vars or env.js
 // const envPublicUrl = process.env.PUBLIC_URL;
-const envPublicUrl = config.build.assetsPath
+const envPublicUrl = config.build.assetsURL
 
 function ensureSlash(inputPath, needsSlash) {
   const hasSlash = inputPath.endsWith('/');
@@ -56,5 +56,5 @@ module.exports = {
   proxySetup: resolveApp('src/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
-  servedPath: getServedPath(resolveApp('package.json')),
+  servedPath: getServedPath(resolveApp('package.json'))
 };
